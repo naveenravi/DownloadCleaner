@@ -8,7 +8,7 @@ import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import static java.nio.file.StandardWatchEventKinds.*;
-
+import static java.nio.file.StandardCopyOption.ATOMIC_MOVE;
 
 public class Laucher {
 
@@ -19,7 +19,7 @@ public class Laucher {
 
 	private enum extensions {
 		jpg(picture_location), mp3(music_location), doc(doc_location), docx(
-				doc_location), pdf(doc_location), gif(picture_location);
+				doc_location), pdf(doc_location), gif(picture_location), png(picture_location);
 
 		private String custom_location;
 
@@ -60,18 +60,18 @@ public class Laucher {
 					WatchEvent.Kind event_kind = event.kind();
 					if (event_kind == ENTRY_CREATE) {
 						String new_file = event.context().toString();
-						//System.out.println("new file found!!!");
-						//System.out
-							//	.println("++++++++++++++++++++++++++++++++++++++++++++++");
+						System.out.println("new file found!!!");
+						System.out
+						.println("++++++++++++++++++++++++++++++++++++++++++++++");
 						System.out.println("FILE name---> : " + new_file);
-					//	System.out
-						//		.println("++++++++++++++++++++++++++++++++++++++++++++++");
+					System.out
+							.println("++++++++++++++++++++++++++++++++++++++++++++++");
 						organise(new_file);
 					}
 				}
 				if (event_key.reset()) {
 					System.out.println("key has been reset");
-					//System.out.println("ready to recieve more events");
+					System.out.println("ready to recieve more events");
 				}
 			}
 
@@ -81,7 +81,7 @@ public class Laucher {
 	}
 
 	private static void organise(String file_name) {
-		//System.out.println("organise...........");
+		System.out.println("organise...........");
 		String[] name_parts = file_name.split("\\.");
 		String extension = name_parts[name_parts.length - 1];
 		System.out.println("extension is:" + extension);
@@ -95,13 +95,13 @@ public class Laucher {
 		Path new_location = Paths.get(ext.getlocation(), file_name);
 
 		try {
-			//System.out.println("moving file now....");
-			Files.move(current_location, new_location);
+			System.out.println("moving file now....");
+			Files.move(current_location, new_location, ATOMIC_MOVE);
 			System.out.println("moved to "+ new_location);			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//System.out.println("-----*******------");
+		System.out.println("-----*******------");
 	}
 
 }
