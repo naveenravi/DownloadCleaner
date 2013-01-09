@@ -1,5 +1,8 @@
 package com.naveen.dcleaner;
 
+import static java.nio.file.StandardCopyOption.ATOMIC_MOVE;
+import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -7,19 +10,26 @@ import java.nio.file.Paths;
 import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
-import static java.nio.file.StandardWatchEventKinds.*;
-import static java.nio.file.StandardCopyOption.ATOMIC_MOVE;
 
 public class Laucher {
 
-	private static final String location = "C:\\Users\\Naveen\\Desktop\\Testing";
-	private static final String picture_location = "C:\\Users\\Naveen\\Desktop\\Pictures";
-	private static final String music_location = "C:\\Users\\Naveen\\Desktop\\Music";
-	private static final String doc_location = "C:\\Users\\Naveen\\Desktop\\Docum";
-
+	/*
+	 * private static final String location =
+	 * "C:\\Users\\Naveen\\Desktop\\Testing"; private static final String
+	 * picture_location = "C:\\Users\\Naveen\\Desktop\\Pictures"; private static
+	 * final String music_location = "C:\\Users\\Naveen\\Desktop\\Music";
+	 * private static final String doc_location =
+	 * "C:\\Users\\Naveen\\Desktop\\Docum";
+	 */
 	private enum extensions {
-		jpg(picture_location), mp3(music_location), doc(doc_location), docx(
-				doc_location), pdf(doc_location), gif(picture_location), png(picture_location);
+		// jpg(picture_location), mp3(music_location), doc(doc_location), docx(
+		// doc_location), pdf(doc_location), gif(picture_location),
+		// png(picture_location);
+		jpg(cleanerGUI.getPicture_location()), mp3(cleanerGUI
+				.getMusic_location()), doc(cleanerGUI.getDoc_location()), docx(
+				cleanerGUI.getDoc_location()), pdf(cleanerGUI.getDoc_location()), gif(
+				cleanerGUI.getPicture_location()), png(cleanerGUI
+				.getPicture_location());
 
 		private String custom_location;
 
@@ -38,7 +48,11 @@ public class Laucher {
 	public static void main(String[] args) {
 
 		System.out.println("starting the app now....");
-		Path mypath = Paths.get(location);
+
+		cleanerGUI.launch(args);
+
+		// Path mypath = Paths.get(location);
+		Path mypath = Paths.get(cleanerGUI.getLocation());
 		// creating a watcherservice
 		try {
 			System.out.println("creating a watcher service");
@@ -62,10 +76,10 @@ public class Laucher {
 						String new_file = event.context().toString();
 						System.out.println("new file found!!!");
 						System.out
-						.println("++++++++++++++++++++++++++++++++++++++++++++++");
+								.println("++++++++++++++++++++++++++++++++++++++++++++++");
 						System.out.println("FILE name---> : " + new_file);
-					System.out
-							.println("++++++++++++++++++++++++++++++++++++++++++++++");
+						System.out
+								.println("++++++++++++++++++++++++++++++++++++++++++++++");
 						organise(new_file);
 					}
 				}
@@ -86,18 +100,18 @@ public class Laucher {
 		String extension = name_parts[name_parts.length - 1];
 		System.out.println("extension is:" + extension);
 
-
 		extensions ext = extensions.valueOf(extension);
-		
-		Path current_location = Paths.get(location, file_name);
-		//System.out.println("current location" + current_location);
+
+		// Path current_location = Paths.get(location, file_name);
+		Path current_location = Paths.get(cleanerGUI.getLocation(), file_name);
+		// System.out.println("current location" + current_location);
 
 		Path new_location = Paths.get(ext.getlocation(), file_name);
 
 		try {
 			System.out.println("moving file now....");
 			Files.move(current_location, new_location, ATOMIC_MOVE);
-			System.out.println("moved to "+ new_location);			
+			System.out.println("moved to " + new_location);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
