@@ -11,6 +11,8 @@ import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 
+import javafx.stage.Stage;
+
 public class Laucher {
 
 	/*
@@ -49,7 +51,9 @@ public class Laucher {
 
 		System.out.println("starting the app now....");
 
-		cleanerGUI.launch(args);
+		cleanerGUI GUIObj = new cleanerGUI();	
+		GUIObj.callLaunch(args);
+		
 
 		// Path mypath = Paths.get(location);
 		Path mypath = Paths.get(cleanerGUI.getLocation());

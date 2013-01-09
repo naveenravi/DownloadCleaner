@@ -27,12 +27,12 @@ public class cleanerGUI extends Application {
 	TextField cleanTxtF = new TextField();
 	TextField pictureTxtF = new TextField();
 	TextField documentTxtF = new TextField();
-
-	public static void main(String args[]) {
-
-		launch(args);
-	}
-
+	
+public void callLaunch(String[] args){
+	launch(args);
+}
+	
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
