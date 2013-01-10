@@ -2,6 +2,7 @@ package com.naveen.dcleaner;
 
 import static java.nio.file.StandardCopyOption.ATOMIC_MOVE;
 import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
+import static java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,8 +11,6 @@ import java.nio.file.Paths;
 import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
-
-import javafx.stage.Stage;
 
 public class Laucher {
 
@@ -31,7 +30,7 @@ public class Laucher {
 				.getMusic_location()), doc(cleanerGUI.getDoc_location()), docx(
 				cleanerGUI.getDoc_location()), pdf(cleanerGUI.getDoc_location()), gif(
 				cleanerGUI.getPicture_location()), png(cleanerGUI
-				.getPicture_location());
+				.getPicture_location()), tmp("C:\\Users\\Naveen\\Downloads");
 
 		private String custom_location;
 
@@ -53,6 +52,7 @@ public class Laucher {
 
 		cleanerGUI GUIObj = new cleanerGUI();	
 		GUIObj.callLaunch(args);
+		String prevFileName = null ;
 		
 
 		// Path mypath = Paths.get(location);
@@ -69,7 +69,7 @@ public class Laucher {
 			while (true) {
 				// waiting for an event to occur and getting the key to that
 				// event of that service
-				System.out.println("waiting for events....");
+				System.out.println("waiting for events....");				
 				WatchKey event_key = wservice.take();
 				// after the key has been moved to "SIGNALLED" state, we get the
 				// events by polling
@@ -78,13 +78,37 @@ public class Laucher {
 					WatchEvent.Kind event_kind = event.kind();
 					if (event_kind == ENTRY_CREATE) {
 						String new_file = event.context().toString();
+						
+						// if previous file name is empty
+						  // load this file name into the PFN
+						if(prevFileName.isEmpty()){
+				        	System.out.println("setting PFN");
+				        	prevFileName = new_file;
+				        }
+						// else check if the current file name is same as PFN
+						    // [YES] no change continue
+						// [NO] execute organise for PFN and update PFN with new file name
+						if(!new_file.equalsIgnoreCase(prevFileName)){
+							organise(prevFileName);
+						
+							prevFileName = new_file;
+						}
+						
+						
+						
+						
 						System.out.println("new file found!!!");
 						System.out
 								.println("++++++++++++++++++++++++++++++++++++++++++++++");
-						System.out.println("FILE name---> : " + new_file);
+						System.out.println("FILE name---> :" + new_file);
 						System.out
 								.println("++++++++++++++++++++++++++++++++++++++++++++++");
-						organise(new_file);
+						//organise(new_file);
+					}
+					if(event_kind == ENTRY_MODIFY){
+						System.out.println("emtry modify event.....");
+						System.out.printf("Entry Modify event occured with %s file", event.context().toString());
+						System.out.println("----------------");
 					}
 				}
 				if (event_key.reset()) {
@@ -106,20 +130,25 @@ public class Laucher {
 
 		extensions ext = extensions.valueOf(extension);
 
-		// Path current_location = Paths.get(location, file_name);
-		Path current_location = Paths.get(cleanerGUI.getLocation(), file_name);
-		// System.out.println("current location" + current_location);
+		if(!ext.toString().equalsIgnoreCase("tmp")){
+			// Path current_location = Paths.get(location, file_name);
+			Path current_location = Paths.get(cleanerGUI.getLocation(), file_name);
+			// System.out.println("current location" + current_location);
 
-		Path new_location = Paths.get(ext.getlocation(), file_name);
+			Path new_location = Paths.get(ext.getlocation(), file_name);
 
-		try {
-			System.out.println("moving file now....");
-			Files.move(current_location, new_location, ATOMIC_MOVE);
-			System.out.println("moved to " + new_location);
-		} catch (IOException e) {
-			e.printStackTrace();
+			try {
+				System.out.println("moving file now....");
+				Files.move(current_location, new_location, ATOMIC_MOVE);
+				System.out.println("moved to " + new_location);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			System.out.println("-----*******------");
+		}else{
+			System.out.println("FOUND TMP file"+file_name);
 		}
-		System.out.println("-----*******------");
-	}
 
-}
+	
+		}
+		}
