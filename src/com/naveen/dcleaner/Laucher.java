@@ -28,9 +28,9 @@ public class Laucher {
 		// png(picture_location);
 		jpg(cleanerGUI.getPicture_location()), mp3(cleanerGUI
 				.getMusic_location()), doc(cleanerGUI.getDoc_location()), docx(
-				cleanerGUI.getDoc_location()), pdf(cleanerGUI.getDoc_location()), gif(
-				cleanerGUI.getPicture_location()), png(cleanerGUI
-				.getPicture_location()), tmp("C:\\Users\\Naveen\\Downloads");
+						cleanerGUI.getDoc_location()), pdf(cleanerGUI.getDoc_location()), gif(
+								cleanerGUI.getPicture_location()), png(cleanerGUI
+										.getPicture_location()), tmp("C:\\Users\\Naveen\\Downloads");
 
 		private String custom_location;
 
@@ -49,13 +49,15 @@ public class Laucher {
 	public static void main(String[] args) {
 
 		System.out.println("starting the app now....");
+		cleanerGUI.callLauch(args);	
 
-		cleanerGUI GUIObj = new cleanerGUI();	
-		GUIObj.callLaunch(args);
-		String prevFileName = null ;
+	}
+
+	public static void startWatching() {
+
+		String prevFileName = null;
+
 		
-
-		// Path mypath = Paths.get(location);
 		Path mypath = Paths.get(cleanerGUI.getLocation());
 		// creating a watcherservice
 		try {
@@ -69,8 +71,10 @@ public class Laucher {
 			while (true) {
 				// waiting for an event to occur and getting the key to that
 				// event of that service
-				System.out.println("waiting for events....");				
+				System.out.println("waiting for events....");
+				// WatchKey event_key = wservice.
 				WatchKey event_key = wservice.take();
+
 				// after the key has been moved to "SIGNALLED" state, we get the
 				// events by polling
 				for (WatchEvent<?> event : event_key.pollEvents()) {
@@ -78,63 +82,49 @@ public class Laucher {
 					WatchEvent.Kind event_kind = event.kind();
 					if (event_kind == ENTRY_CREATE) {
 						String new_file = event.context().toString();
-						
-						// if previous file name is empty
-						  // load this file name into the PFN
-						if(prevFileName.isEmpty()){
-				        	System.out.println("setting PFN");
-				        	prevFileName = new_file;
-				        }
-						// else check if the current file name is same as PFN
-						    // [YES] no change continue
-						// [NO] execute organise for PFN and update PFN with new file name
-						if(!new_file.equalsIgnoreCase(prevFileName)){
-							organise(prevFileName);
-						
-							prevFileName = new_file;
-						}
-						
-						
-						
-						
+
 						System.out.println("new file found!!!");
 						System.out
-								.println("++++++++++++++++++++++++++++++++++++++++++++++");
+						.println("++++++++++++++++++++++++++++++++++++++++++++++");
 						System.out.println("FILE name---> :" + new_file);
 						System.out
-								.println("++++++++++++++++++++++++++++++++++++++++++++++");
-						//organise(new_file);
+						.println("++++++++++++++++++++++++++++++++++++++++++++++");
+						// organise(new_file);
 					}
-					if(event_kind == ENTRY_MODIFY){
+					if (event_kind == ENTRY_MODIFY) {
 						System.out.println("emtry modify event.....");
-						System.out.printf("Entry Modify event occured with %s file", event.context().toString());
+						System.out.printf(
+								"Entry Modify event occured with %s file",
+								event.context().toString());
 						System.out.println("----------------");
 					}
 				}
 				if (event_key.reset()) {
-					System.out.println("key has been reset");
-					System.out.println("ready to recieve more events");
+					System.out.println("key has been reset and ready for more events");					
+				}else{
+					System.out.println("*****************failure to reset the key**********");
+					System.exit(1);
 				}
 			}
 
 		} catch (Exception IOexc) {
 			System.err.println("IOEXC:" + IOexc);
 		}
+
 	}
 
+	@SuppressWarnings("unused")
 	private static void organise(String file_name) {
 		System.out.println("organise...........");
 		String[] name_parts = file_name.split("\\.");
+		System.out.println(name_parts);
 		String extension = name_parts[name_parts.length - 1];
 		System.out.println("extension is:" + extension);
-
-		extensions ext = extensions.valueOf(extension);
-
-		if(!ext.toString().equalsIgnoreCase("tmp")){
-			// Path current_location = Paths.get(location, file_name);
-			Path current_location = Paths.get(cleanerGUI.getLocation(), file_name);
-			// System.out.println("current location" + current_location);
-
+		
+		if(checkType(extension)){
+			extensions ext = extensions.valueOf(extension);
+			Path current_location = Paths.get(cleanerGUI.getLocation(),
+					file_name);
 			Path new_location = Paths.get(ext.getlocation(), file_name);
 
 			try {
@@ -145,10 +135,15 @@ public class Laucher {
 				e.printStackTrace();
 			}
 			System.out.println("-----*******------");
-		}else{
-			System.out.println("FOUND TMP file"+file_name);
-		}
-
+		}		
+	}
 	
+	private static boolean checkType(String type){
+		for(extensions e : extensions.values()){
+			if(e.toString().equalsIgnoreCase(type)){
+				return true;
+			}
 		}
-		}
+	  return false;
+	}
+}

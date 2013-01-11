@@ -1,6 +1,7 @@
 package com.naveen.dcleaner;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -23,16 +24,20 @@ public class cleanerGUI extends Application {
 	private static String music_location;
 	private static String doc_location;
 
-	Text welcome = new Text("Hi , Welcome");
-	TextField cleanTxtF = new TextField();
-	TextField pictureTxtF = new TextField();
-	TextField documentTxtF = new TextField();
-	
-public void callLaunch(String[] args){
-	launch(args);
-}
-	
-	
+	private static Text welcome = new Text("Hi , Welcome");
+	private static TextField cleanTxtF = new TextField();
+	private static TextField pictureTxtF = new TextField();
+	private static TextField documentTxtF = new TextField();
+	private static Button submitBtn = new Button("Submit and Start monitoring");
+	private static boolean btnStatus = false;
+
+	public static void callLauch(String[] args){
+		launch(args);
+	}
+	public static void main(String args[]) {
+		launch(args);
+	}
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
@@ -62,7 +67,6 @@ public void callLaunch(String[] args){
 
 		grid.add(documentTxtF, 1, 3);
 
-		Button submitBtn = new Button("Submit and Start monitoring");
 		HBox box1 = new HBox(10);
 		box1.setAlignment(Pos.CENTER);
 		box1.getChildren().add(submitBtn);
@@ -72,10 +76,18 @@ public void callLaunch(String[] args){
 
 			@Override
 			public void handle(ActionEvent e) {
-				location = cleanTxtF.getText();
-				picture_location = pictureTxtF.getText();
-				doc_location = documentTxtF.getText();
-				welcome.setText("Monitoring now...");
+				if (!btnStatus) {
+					location = cleanTxtF.getText();
+					picture_location = pictureTxtF.getText();
+					doc_location = documentTxtF.getText();
+					welcome.setText("Monitoring now...");
+					submitBtn.setText("Stop Monitoring and Exit");
+					btnStatus = true;					
+					Laucher.startWatching();
+					
+				} else {
+					Platform.exit();
+				}
 			}
 
 		});
