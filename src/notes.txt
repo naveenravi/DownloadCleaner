@@ -1,11 +1,17 @@
 NOTES:
 -------------
+- logic needs to be checked for files coming in as a single attempt!!
 
-- Large files cannot be moved as IO Exception is thrown because windows more 
 
-  than one process is trying to access it;
-  
+
 - Folders have to be created prior to starting the app failing on which IO exception
 
   is thrown because of non existent file name;
  
+ - check for empty text fields!!
+ 
+ - add browse option for choosing folder
+ 
+ - closing the window to start monitoring!!! change
+ 
+ - CHROME SUPPORT to be added due to premptive downloading!!!
