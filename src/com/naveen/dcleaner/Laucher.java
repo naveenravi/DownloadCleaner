@@ -13,6 +13,7 @@ import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import static java.nio.file.StandardWatchEventKinds.*;
 import static java.nio.file.StandardCopyOption.ATOMIC_MOVE;
 
@@ -30,6 +31,11 @@ public class Laucher {
 
 public class Laucher {
 
+=======
+
+public class Laucher {
+
+>>>>>>> temp
 	
 	private enum extensions {		
 		jpg(cleanerGUI.getPicture_location()), mp3(cleanerGUI
@@ -37,6 +43,9 @@ public class Laucher {
 						cleanerGUI.getDoc_location()), pdf(cleanerGUI.getDoc_location()), gif(
 								cleanerGUI.getPicture_location()), png(cleanerGUI
 										.getPicture_location()), tmp("C:\\Users\\Naveen\\Downloads");
+<<<<<<< HEAD
+>>>>>>> temp
+=======
 >>>>>>> temp
 
 		private String custom_location;
@@ -84,6 +93,7 @@ public class Laucher {
 					if (event_kind == ENTRY_CREATE) {
 						String new_file = event.context().toString();
 <<<<<<< HEAD
+<<<<<<< HEAD
 						System.out.println("new file found!!!");
 						System.out
 						.println("++++++++++++++++++++++++++++++++++++++++++++++");
@@ -110,10 +120,28 @@ public class Laucher {
 					}
 				}
 				if (event_key.reset()) {
+=======
+
+						System.out.println("new file found!!!");
+						
+					}
+					if (event_kind == ENTRY_MODIFY) {
+						System.out.println("emtry modify event.....");
+						System.out.printf(
+								"Entry Modify event occured with %s file",
+								event.context().toString());
+						System.out.println("----------------");
+					}
+				}
+				if (event_key.reset()) {
+>>>>>>> temp
 					System.out.println("key has been reset and ready for more events");					
 				}else{
 					System.out.println("*****************failure to reset the key**********");
 					System.exit(1);
+<<<<<<< HEAD
+>>>>>>> temp
+=======
 >>>>>>> temp
 				}
 			}
@@ -137,6 +165,7 @@ public class Laucher {
 		System.out.println("extension is:" + extension);
 		
 <<<<<<< HEAD
+<<<<<<< HEAD
 		Path current_location = Paths.get(location, file_name);
 		//System.out.println("current location" + current_location);
 
@@ -150,9 +179,40 @@ public class Laucher {
 			e.printStackTrace();
 		}
 		System.out.println("-----*******------");
-	}
+=======
+		if(checkType(extension)){
+			extensions ext = extensions.valueOf(extension);
+			Path current_location = Paths.get(cleanerGUI.getLocation(),
+					file_name);
+			Path new_location = Paths.get(ext.getlocation(), file_name);
 
+			try {
+				System.out.println("moving file now....");
+				Files.move(current_location, new_location, ATOMIC_MOVE);
+				System.out.println("moved to " + new_location);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			System.out.println("-----*******------");
+		}		
+	}
+	
+	/**
+	 * method to validate the types supported
+	 * @param type
+	 * @return boolean
+	 */
+	private static boolean checkType(String type){
+		for(extensions e : extensions.values()){
+			if(e.toString().equalsIgnoreCase(type)){
+				return true;
+			}
+		}
+	  return false;
+>>>>>>> temp
+	}
 }
+<<<<<<< HEAD
 =======
 package com.naveen.dcleaner;
 
@@ -308,10 +368,16 @@ public class Laucher {
 <<<<<<< HEAD
 >>>>>>> origin/temp
 =======
+=======
+>>>>>>> temp
 /*System.out
 .println("++++++++++++++++++++++++++++++++++++++++++++++");
 System.out.println("FILE name---> :" + new_file);
 System.out
 .println("++++++++++++++++++++++++++++++++++++++++++++++");
+<<<<<<< HEAD
+// organise(new_file);*/
+>>>>>>> temp
+=======
 // organise(new_file);*/
 >>>>>>> temp
