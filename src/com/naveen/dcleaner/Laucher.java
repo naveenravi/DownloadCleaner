@@ -14,18 +14,8 @@ import java.nio.file.WatchService;
 
 public class Laucher {
 
-	/*
-	 * private static final String location =
-	 * "C:\\Users\\Naveen\\Desktop\\Testing"; private static final String
-	 * picture_location = "C:\\Users\\Naveen\\Desktop\\Pictures"; private static
-	 * final String music_location = "C:\\Users\\Naveen\\Desktop\\Music";
-	 * private static final String doc_location =
-	 * "C:\\Users\\Naveen\\Desktop\\Docum";
-	 */
-	private enum extensions {
-		// jpg(picture_location), mp3(music_location), doc(doc_location), docx(
-		// doc_location), pdf(doc_location), gif(picture_location),
-		// png(picture_location);
+	
+	private enum extensions {		
 		jpg(cleanerGUI.getPicture_location()), mp3(cleanerGUI
 				.getMusic_location()), doc(cleanerGUI.getDoc_location()), docx(
 						cleanerGUI.getDoc_location()), pdf(cleanerGUI.getDoc_location()), gif(
@@ -53,13 +43,8 @@ public class Laucher {
 
 	}
 
-	public static void startWatching() {
-
-		String prevFileName = null;
-
-		
+	public static void startWatching() {		
 		Path mypath = Paths.get(cleanerGUI.getLocation());
-		// creating a watcherservice
 		try {
 			System.out.println("creating a watcher service");
 			WatchService wservice = mypath.getFileSystem().newWatchService();
@@ -74,7 +59,6 @@ public class Laucher {
 				System.out.println("waiting for events....");
 				// WatchKey event_key = wservice.
 				WatchKey event_key = wservice.take();
-
 				// after the key has been moved to "SIGNALLED" state, we get the
 				// events by polling
 				for (WatchEvent<?> event : event_key.pollEvents()) {
@@ -84,12 +68,7 @@ public class Laucher {
 						String new_file = event.context().toString();
 
 						System.out.println("new file found!!!");
-						System.out
-						.println("++++++++++++++++++++++++++++++++++++++++++++++");
-						System.out.println("FILE name---> :" + new_file);
-						System.out
-						.println("++++++++++++++++++++++++++++++++++++++++++++++");
-						// organise(new_file);
+						
 					}
 					if (event_kind == ENTRY_MODIFY) {
 						System.out.println("emtry modify event.....");
@@ -113,6 +92,10 @@ public class Laucher {
 
 	}
 
+	/**
+	 * moves the file depending on the type
+	 * @param file_name
+	 */
 	@SuppressWarnings("unused")
 	private static void organise(String file_name) {
 		System.out.println("organise...........");
@@ -138,6 +121,11 @@ public class Laucher {
 		}		
 	}
 	
+	/**
+	 * method to validate the types supported
+	 * @param type
+	 * @return boolean
+	 */
 	private static boolean checkType(String type){
 		for(extensions e : extensions.values()){
 			if(e.toString().equalsIgnoreCase(type)){
@@ -147,3 +135,9 @@ public class Laucher {
 	  return false;
 	}
 }
+/*System.out
+.println("++++++++++++++++++++++++++++++++++++++++++++++");
+System.out.println("FILE name---> :" + new_file);
+System.out
+.println("++++++++++++++++++++++++++++++++++++++++++++++");
+// organise(new_file);*/

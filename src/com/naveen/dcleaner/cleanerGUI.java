@@ -69,7 +69,7 @@ public class cleanerGUI extends Application {
 
 		HBox box1 = new HBox(10);
 		box1.setAlignment(Pos.CENTER);
-		box1.getChildren().add(submitBtn);
+		box1.getChildren().add(submitBtn);		
 		grid.add(box1, 1, 4);
 
 		submitBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -82,7 +82,8 @@ public class cleanerGUI extends Application {
 					doc_location = documentTxtF.getText();
 					welcome.setText("Monitoring now...");
 					submitBtn.setText("Stop Monitoring and Exit");
-					btnStatus = true;					
+					btnStatus = true;
+					
 					Laucher.startWatching();
 					
 				} else {
