@@ -1,14 +1,7 @@
 package com.naveen.dcleaner;
 
 import javafx.application.Application;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 import javafx.application.Platform;
->>>>>>> temp
-=======
-import javafx.application.Platform;
->>>>>>> temp
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -30,19 +23,6 @@ public class cleanerGUI extends Application {
 	private static String picture_location;
 	private static String music_location;
 	private static String doc_location;
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-	Text welcome = new Text("Hi , Welcome");
-	TextField cleanTxtF = new TextField();
-	TextField pictureTxtF = new TextField();
-	TextField documentTxtF = new TextField();
-
-	public static void main(String args[]) {
-
-=======
-=======
->>>>>>> temp
 	private static Text welcome = new Text("Hi , Welcome");
 	private static TextField cleanTxtF = new TextField();
 	private static TextField pictureTxtF = new TextField();
@@ -54,10 +34,6 @@ public class cleanerGUI extends Application {
 		launch(args);
 	}
 	public static void main(String args[]) {
-<<<<<<< HEAD
->>>>>>> temp
-=======
->>>>>>> temp
 		launch(args);
 	}
 
@@ -90,54 +66,34 @@ public class cleanerGUI extends Application {
 
 		grid.add(documentTxtF, 1, 3);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-		Button submitBtn = new Button("Submit and Start monitoring");
+
+		final Button submitBtn = new Button("Submit and Start monitoring");
 		HBox box1 = new HBox(10);
 		box1.setAlignment(Pos.CENTER);
 		box1.getChildren().add(submitBtn);
-=======
-		HBox box1 = new HBox(10);
-		box1.setAlignment(Pos.CENTER);
-		box1.getChildren().add(submitBtn);		
->>>>>>> temp
-=======
-		HBox box1 = new HBox(10);
-		box1.setAlignment(Pos.CENTER);
-		box1.getChildren().add(submitBtn);		
->>>>>>> temp
 		grid.add(box1, 1, 4);
 
 		submitBtn.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent e) {
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 				location = cleanTxtF.getText();
 				picture_location = pictureTxtF.getText();
 				doc_location = documentTxtF.getText();
 				welcome.setText("Monitoring now...");
-=======
-=======
->>>>>>> temp
 				if (!btnStatus) {
 					location = cleanTxtF.getText();
 					picture_location = pictureTxtF.getText();
 					doc_location = documentTxtF.getText();
 					welcome.setText("Monitoring now...");
 					submitBtn.setText("Stop Monitoring and Exit");
-					btnStatus = true;
-					
-					Laucher.startWatching();
+					btnStatus = true;					
+					//Laucher.startWatching();
 					
 				} else {
 					Platform.exit();
 				}
-<<<<<<< HEAD
->>>>>>> temp
-=======
->>>>>>> temp
 			}
 
 		});

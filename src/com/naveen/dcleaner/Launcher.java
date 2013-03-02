@@ -11,7 +11,7 @@ import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 
-public class Laucher {
+public class Launcher {
 
 	/*
 	 * private static final String location =
